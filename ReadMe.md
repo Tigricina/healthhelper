@@ -25,15 +25,14 @@ https://t.me/hh_vitamins_bot -  Telegram-бот.
 
 ```
                     ┌──────────────────┐
-                    │   PostgreSQL БД   │
-                    │ (Neon / Supabase) │
+                    │   PostgreSQL БД  │
+                    │ (Neon / Supabase)│
                     └────────┬─────────┘
                              │
                     ┌────────┴─────────┐
-                    │   Backend API     │
-                    │ Node.js (Express) │
-                    │  или PHP (Slim/   │
-                    │     Laravel)      │
+                    │   Backend API    │
+                    │ Node.js (Express)│
+                    │                  │
                     └────────┬─────────┘
                  ┌───────────┴───────────┐
                  │                       │

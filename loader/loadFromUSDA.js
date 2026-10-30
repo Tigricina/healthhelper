@@ -36,17 +36,32 @@ async function getFoodDetails(fdcId) {
     return res.json();
 }
 
-// Из массива нутриентов продукта вытаскиваем только нужные нам витамины
+// Переводим значение в миллиграммы (в БД все количества хранятся в мг)
+function toMg(amount, unitName) {
+    if (typeof amount !== 'number') return null;
+    const unit = (unitName || '').toLowerCase();
+    if (unit === 'mg') return amount;
+    if (unit === 'ug' || unit === '\u00b5g' || unit === '\u03bcg') return amount / 1000; // мкг
+    if (unit === 'g') return amount * 1000;
+    return null; // IU и прочие единицы без пересчёта не используем
+}
+
 function extractVitamins(foodNutrients) {
-    const found = {}; // { code: amountPer100g }
+    const found = {}; // { code: количество в мг на 100 г }
 
     for (const [code, { usdaName }] of Object.entries(vitaminMap)) {
-        const match = foodNutrients.find(n =>
-            n.nutrient?.name?.toLowerCase().includes(usdaName.toLowerCase())
-        );
-        if (match && typeof match.amount === 'number') {
-            found[code] = match.amount;
-        }
+        const target = usdaName.toLowerCase();
+
+        const candidates = foodNutrients
+            .map((n) => ({
+                name: (n.nutrient?.name || '').toLowerCase(),
+                mg: toMg(n.amount, n.nutrient?.unitName),
+            }))
+            .filter((c) => c.mg !== null && c.name.includes(target));
+
+        // Точное совпадение названия важнее частичного
+        const best = candidates.find((c) => c.name === target) || candidates[0];
+        if (best) found[code] = best.mg;
     }
     return found;
 }
