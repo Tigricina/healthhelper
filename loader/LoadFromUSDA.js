@@ -126,3 +126,5 @@ main().catch(err => {
     console.error('Ошибка загрузки:', err);
     process.exit(1);
 });
+
+
