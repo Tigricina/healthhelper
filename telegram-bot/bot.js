@@ -95,14 +95,36 @@ bot.on('text', async (ctx) => {
 });
 
 // Запуск бота
-loadVitamins()
-    .then(() => {
-        bot.launch();
+async function start() {
+    // Список витаминов подгружаем, но если backend ещё "спит" — не падаем,
+    // кэш заполнится при первом обращении (так уже написано в обработчиках)
+    try {
+        await loadVitamins();
+    } catch (err) {
+        console.error('Не удалось заранее загрузить витамины, загрузим позже:', err.message);
+    }
+
+    // На Render переменная RENDER_EXTERNAL_URL задаётся автоматически
+    const domain = (process.env.WEBHOOK_DOMAIN || process.env.RENDER_EXTERNAL_URL || '')
+        .replace(/^https?:\/\//, '');
+
+    if (domain) {
+        // Режим webhook (деплой)
+        await bot.launch({
+            webhook: { domain, port: Number(process.env.PORT) || 3001 },
+        });
+        console.log(`HealthHelper bot запущен (webhook, ${domain})`);
+    } else {
+        // Режим long polling (локальная разработка)
+        await bot.launch();
         console.log('HealthHelper bot запущен (long polling)');
-    })
-    .catch((err) => {
-        console.error('Не удалось запустить бота:', err);
-    });
+    }
+}
+
+start().catch((err) => {
+    console.error('Не удалось запустить бота:', err);
+    process.exit(1);
+});
 
 // Корректное завершение процесса
 process.once('SIGINT', () => bot.stop('SIGINT'));
