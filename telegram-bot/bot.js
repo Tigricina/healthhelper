@@ -10,10 +10,25 @@ const bot = new Telegraf(BOT_TOKEN);
 // Кэшируем список витаминов, чтобы не запрашивать API при каждом /start
 let vitaminsCache = [];
 
+// Запрос к API с повторами: бесплатный backend на Render может просыпаться до минуты
+async function apiGet(path, attempts = 3, timeoutMs = 20000, delayMs = 8000) {
+    let lastErr;
+    for (let i = 1; i <= attempts; i++) {
+        try {
+            const res = await fetch(`${API_BASE}${path}`, { timeout: timeoutMs });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return await res.json();
+        } catch (err) {
+            lastErr = err;
+            console.error(`API, попытка ${i}/${attempts} не удалась:`, err.message);
+            if (i < attempts) await new Promise((r) => setTimeout(r, delayMs));
+        }
+    }
+    throw lastErr;
+}
+
 async function loadVitamins() {
-    const res = await fetch(`${API_BASE}/vitamins`);
-    if (!res.ok) throw new Error('Не удалось получить список витаминов с API');
-    vitaminsCache = await res.json();
+    vitaminsCache = await apiGet('/vitamins');
 }
 
 // Собираем инлайн-клавиатуру из списка витаминов (по 3 кнопки в ряд)
@@ -32,6 +47,7 @@ function buildVitaminKeyboard() {
 // /start — приветствие и клавиатура выбора витамина
 bot.start(async (ctx) => {
     try {
+        fetch(`${API_BASE}/health`).catch(() => { }); // будим backend заранее
         if (vitaminsCache.length === 0) await loadVitamins();
         await ctx.reply(
             'Привет! Я HealthHelper — подскажу, в каких продуктах содержится витамин, ' +
@@ -62,9 +78,7 @@ bot.action(/^vitamin:(.+)$/, async (ctx) => {
     await ctx.answerCbQuery(); // убираем "часики" на кнопке
 
     try {
-        const res = await fetch(`${API_BASE}/vitamins/${code}/products?limit=10`);
-        if (!res.ok) throw new Error('Ошибка API');
-        const data = await res.json();
+        const data = await apiGet(`/vitamins/${code}/products?limit=10`);
 
         let message = `*${data.vitamin.name}*\n`;
         message += `Суточная норма для взрослого: ${data.vitamin.daily_norm_mg} мг\n`;
