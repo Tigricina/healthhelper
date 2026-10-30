@@ -121,4 +121,15 @@ ORDER BY products_count DESC;
 - Serv00: https://www.serv00.com/
 
 ## Примечание
-Репозиторий не содержит файлы с информацией о подключении к БД и Telegram API. Поэтому перед сборкой проекта нужно добавить эти файлы самостоятельно. А проверить работоспособность проекта можно по https://healthhelper-tau.vercel.app.
+Репозиторий не содержит файлы с информацией о подключении к БД и Telegram API. Поэтому перед сборкой проекта нужно добавить эти файлы самостоятельно. А проверить работоспособность проекта можно по https://healthhelper-tau.vercel.app. 
+
+## Скриншоты
+
+| Компьютер | Телефон |
+|---|---|
+| <img src="img/site-desktop.png" width="400"> | <img src="img/site-mobile.jpg" width="200"> | 
+![Telegram-бот](img/telegram-bot.jpg)
+
+## Схема БД
+
+![ER-диаграмма](img/er-diagram.png)
