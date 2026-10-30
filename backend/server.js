@@ -16,6 +16,10 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' });
 });
 
+app.get('/', (req, res) => {
+    res.json({ name: 'HealthHelper API', endpoints: ['/api/health', '/api/vitamins'] });
+});
+
 app.listen(PORT, () => {
     console.log(`HealthHelper API запущен на порту ${PORT}`);
 });
