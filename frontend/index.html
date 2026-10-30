@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthHelper — витамины в продуктах</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <h1>HealthHelper</h1>
+        <p>Узнайте, в каких продуктах содержится нужный витамин</p>
+    </header>
+
+    <main class="container">
+
+        <form id="vitamin-form" class="vitamin-form">
+            <label for="vitamin-select">Выберите витамин:</label>
+            <select id="vitamin-select" name="vitamin" required>
+                <option value="" disabled selected>Загрузка списка...</option>
+            </select>
+            <button type="submit">Показать продукты</button>
+        </form>
+
+        <section id="status" class="status" hidden></section>
+
+        <section id="vitamin-info" class="vitamin-info" hidden>
+            <h2 id="vitamin-name"></h2>
+            <p id="vitamin-norm"></p>
+            <p id="vitamin-absorption"></p>
+        </section>
+
+        <section id="products-list" class="products-grid"></section>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>Данные о составе продуктов — USDA FoodData Central</p>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+
+</html>

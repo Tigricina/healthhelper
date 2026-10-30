@@ -1,0 +1,198 @@
+/* ===== Базовые настройки ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f7f9fb;
+    color: #1e2a33;
+    line-height: 1.5;
+}
+
+/* ===== Хедер ===== */
+.site-header {
+    background-color: #2f7a4f;
+    color: #ffffff;
+    text-align: center;
+    padding: 24px 16px;
+}
+
+.site-header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+}
+
+.site-header p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+/* ===== Контейнер контента ===== */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+}
+
+/* ===== Форма выбора витамина ===== */
+.vitamin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin-bottom: 24px;
+}
+
+.vitamin-form label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.vitamin-form select {
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid #cbd5db;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.vitamin-form button {
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #2f7a4f;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.vitamin-form button:hover {
+    background-color: #256540;
+}
+
+.vitamin-form button:disabled {
+    background-color: #a9b8ae;
+    cursor: not-allowed;
+}
+
+/* ===== Статус / ошибки ===== */
+.status {
+    text-align: center;
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.status.error {
+    background-color: #fdeaea;
+    color: #a3251e;
+}
+
+.status.loading {
+    background-color: #eef3ff;
+    color: #2a4d8f;
+}
+
+/* ===== Блок информации о витамине ===== */
+.vitamin-info {
+    background: #eef7f0;
+    border-left: 4px solid #2f7a4f;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.vitamin-info h2 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+}
+
+.vitamin-info p {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+/* ===== Сетка продуктов (mobile-first: 1 колонка) ===== */
+.products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+.product-card {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.product-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+    color: #1e2a33;
+}
+
+.product-card .grams-needed {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2f7a4f;
+}
+
+.product-card .grams-label {
+    font-size: 0.85rem;
+    color: #5a6a72;
+}
+
+/* ===== Футер ===== */
+.site-footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 0.8rem;
+    color: #7a8890;
+}
+
+/* ===== Адаптивность: планшет (от 600px) ===== */
+@media (min-width: 600px) {
+    .vitamin-form {
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .vitamin-form label {
+        flex-basis: 100%;
+    }
+
+    .vitamin-form select {
+        flex: 1;
+    }
+
+    .vitamin-form button {
+        flex: 0 0 auto;
+        padding: 10px 24px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ===== Адаптивность: десктоп (от 900px) ===== */
+@media (min-width: 900px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .site-header h1 {
+        font-size: 2.2rem;
+    }
+}
