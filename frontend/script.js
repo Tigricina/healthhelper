@@ -1,5 +1,5 @@
 // Адрес вашего backend API. При деплое backend на хостинг — замените на реальный URL.
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = 'https://healthhelper.onrender.com/api';
 
 const vitaminSelect = document.getElementById('vitamin-select');
 const form = document.getElementById('vitamin-form');
